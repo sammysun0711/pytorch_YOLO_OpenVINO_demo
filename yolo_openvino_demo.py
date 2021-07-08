@@ -215,8 +215,8 @@ def parse_yolo_region(blob, resized_image_shape, original_im_shape, params, thre
             width = (2*width)**2* params.anchors[idx * 6 + 2 * n] 
             height = (2*height)**2 * params.anchors[idx * 6 + 2 * n + 1]
 
-        class_id = np.argmax(class_probabilities * object_probability)
-        confidence = class_probabilities[class_id] * object_probability
+        class_id = np.argmax(class_probabilities)
+        confidence = class_probabilities[class_id]
         objects.append(scale_bbox(x=x, y=y, height=height, width=width, class_id=class_id, confidence=confidence,
                                   im_h=orig_im_h, im_w=orig_im_w, resized_im_h=resized_image_h, resized_im_w=resized_image_w))
     return objects
@@ -371,8 +371,8 @@ def main():
             if objects[i]['confidence'] == 0:
                 continue
             for j in range(i + 1, len(objects)):
-                if objects[i]['class_id'] != objects[j]['class_id']: # Only compare bounding box with same class id
-                    continue
+                #if objects[i]['class_id'] != objects[j]['class_id']: # Only compare bounding box with same class id
+                #    continue
                 if intersection_over_union(objects[i], objects[j]) > args.iou_threshold:
                     objects[j]['confidence'] = 0
 
@@ -421,7 +421,8 @@ def main():
         start_time = time()
         if not args.no_show:
             cv2.imshow("DetectionResults", frame)
-        render_time = time() - start_time
+            cv2.imwrite("output.png", frame)
+            render_time = time() - start_time
 
         if is_async_mode:
             cur_request_id, next_request_id = next_request_id, cur_request_id
