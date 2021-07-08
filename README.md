@@ -1,6 +1,7 @@
 # pytorch_YOLO_OpenVINO_demo
 
-Integration of Pytorch YOLO models (YOLO-V3 / YOLO-V4 / Scaled-YOLO-V4 / YOLO-V5) for OpenVINO inference based on https://github.com/sammysun0711/pytorch_YOLO_OpenVINO_demo
+Integration of Pytorch YOLO models (YOLO-V3 / YOLO-V4 / Scaled-YOLO-V4 / YOLO-V5) for OpenVINO inference based on https://github.com/Chen-MingChang/pytorch_YOLO_OpenVINO_demo.
+
 Windows 10 and Ubuntu 18.04 are validated to use. (Scaled-YOLO-V4 is only available on Ubuntu)
 
 ## Convert Weights to ONNX File
