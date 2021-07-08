@@ -388,8 +388,8 @@ def main():
             # Validation bbox of detected object
             if obj['xmax'] > origin_im_size[1] or obj['ymax'] > origin_im_size[0] or obj['xmin'] < 0 or obj['ymin'] < 0:
                 continue
-            color = (int(min(obj['class_id'] * 12.5, 255)),
-                     min(obj['class_id'] * 7, 255), min(obj['class_id'] * 5, 255))
+            color = (int(max(255 - obj['class_id'] * 7.5, 0)),
+                     max(255 - obj['class_id'] * 10, 0), max(255 - obj['class_id'] * 12.5, 0))
             det_label = labels_map[obj['class_id']] if labels_map and len(labels_map) >= obj['class_id'] else \
                 str(obj['class_id'])
 
@@ -421,7 +421,7 @@ def main():
         start_time = time()
         if not args.no_show:
             cv2.imshow("DetectionResults", frame)
-            cv2.imwrite("output.png", frame)
+            cv2.imwrite("demo_result.png", frame)
             render_time = time() - start_time
 
         if is_async_mode:
