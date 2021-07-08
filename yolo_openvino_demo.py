@@ -215,8 +215,8 @@ def parse_yolo_region(blob, resized_image_shape, original_im_shape, params, thre
             width = (2*width)**2* params.anchors[idx * 6 + 2 * n] 
             height = (2*height)**2 * params.anchors[idx * 6 + 2 * n + 1]
 
-        class_id = np.argmax(class_probabilities * object_probability)
-        confidence = class_probabilities[class_id] * object_probability
+        class_id = np.argmax(class_probabilities)
+        confidence = class_probabilities[class_id]
         objects.append(scale_bbox(x=x, y=y, height=height, width=width, class_id=class_id, confidence=confidence,
                                   im_h=orig_im_h, im_w=orig_im_w, resized_im_h=resized_image_h, resized_im_w=resized_image_w))
     return objects
@@ -371,8 +371,8 @@ def main():
             if objects[i]['confidence'] == 0:
                 continue
             for j in range(i + 1, len(objects)):
-                if objects[i]['class_id'] != objects[j]['class_id']: # Only compare bounding box with same class id
-                    continue
+                #if objects[i]['class_id'] != objects[j]['class_id']: # Only compare bounding box with same class id
+                #    continue
                 if intersection_over_union(objects[i], objects[j]) > args.iou_threshold:
                     objects[j]['confidence'] = 0
 
@@ -388,8 +388,8 @@ def main():
             # Validation bbox of detected object
             if obj['xmax'] > origin_im_size[1] or obj['ymax'] > origin_im_size[0] or obj['xmin'] < 0 or obj['ymin'] < 0:
                 continue
-            color = (int(min(obj['class_id'] * 12.5, 255)),
-                     min(obj['class_id'] * 7, 255), min(obj['class_id'] * 5, 255))
+            color = (int(max(255 - obj['class_id'] * 7.5, 0)),
+                     max(255 - obj['class_id'] * 10, 0), max(255 - obj['class_id'] * 12.5, 0))
             det_label = labels_map[obj['class_id']] if labels_map and len(labels_map) >= obj['class_id'] else \
                 str(obj['class_id'])
 
@@ -421,7 +421,8 @@ def main():
         start_time = time()
         if not args.no_show:
             cv2.imshow("DetectionResults", frame)
-        render_time = time() - start_time
+            cv2.imwrite("demo_result.png", frame)
+            render_time = time() - start_time
 
         if is_async_mode:
             cur_request_id, next_request_id = next_request_id, cur_request_id

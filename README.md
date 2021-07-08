@@ -1,6 +1,6 @@
 # pytorch_YOLO_OpenVINO_demo
 
-Integration of Pytorch YOLO models (YOLO-V3 / YOLO-V4 / Scaled-YOLO-V4 / YOLO-V5) for OpenVINO inference.  
+Integration of Pytorch YOLO models (YOLO-V3 / YOLO-V4 / Scaled-YOLO-V4 / YOLO-V5) for OpenVINO inference based on https://github.com/sammysun0711/pytorch_YOLO_OpenVINO_demo
 Windows 10 and Ubuntu 18.04 are validated to use. (Scaled-YOLO-V4 is only available on Ubuntu)
 
 ## Convert Weights to ONNX File
@@ -29,7 +29,7 @@ https://github.com/WongKinYiu/ScaledYOLOv4/tree/yolov4-large#installation
 There are three scaled models (p5, p6, p7) with different backbone.
 
 **About YOLOV5**  
-There are four tag in YOLOv5 repository so far. And YOLOv5 includes YOLOv5s, YOLOv5m, YOLOv5l and YOLOv5x due to different backbone. Here we use models from tag v4.0 for inference.  
+There are six tag in YOLOv5 repository so far. And YOLOv5 includes YOLOv5s, YOLOv5m, YOLOv5l and YOLOv5x due to different backbone. Here is models from tag v4.0 for inference result.  
 https://github.com/ultralytics/yolov5
 
 | Model | Test Size | Weights | AP<sub>50</sub><sup>OpenVINO Accuracy Checker Tool</sup>
@@ -143,7 +143,7 @@ After generate IR model, we can use **yolo__openvino_demo.py** for inference.
 The usage is as follows:  
 
 ```
-usage: yolo__openvino_demo.py [-h] -m MODEL -at
+usage: yolo_openvino_demo.py [-h] -m MODEL -at
                               {yolov3,yolov4,yolov5,yolov4-p5,yolov4-p6,yolov4-p7}
                               -i INPUT [-l CPU_EXTENSION] [-d DEVICE]
                               [--labels LABELS] [-t PROB_THRESHOLD]
